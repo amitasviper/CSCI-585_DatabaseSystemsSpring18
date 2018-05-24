@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0">
+	<Document>
+		<Style id="z1">
+			<IconStyle>
+				<Icon>
+					<href>https://amitasviper.com/assets/map-marker.png</href>
+				</Icon>
+			</IconStyle>
+		</Style>
+		<Style id="transBluePoly">
+      		<LineStyle>
+        		<width>1.5</width>
+        		<color>74ff00ff</color>
+      		</LineStyle>
+      		<PolyStyle>
+        		<color>52ff00ff</color>
+      		</PolyStyle>
+    	</Style>
+    	<Style id="closest">
+      		<LineStyle>
+      		  <color>7f00ffff</color>
+      		  <width>4</width>
+      		</LineStyle>
+    	</Style>
+    	<Style id="2ndClosest">
+      		<LineStyle>
+      		  <color>7fff0000</color>
+      		  <width>4</width>
+      		</LineStyle>
+    	</Style>
+    	<Style id="3rdClosest">
+      		<LineStyle>
+      		  <color>7f0000ff</color>
+      		  <width>4</width>
+      		</LineStyle>
+    	</Style>
+		<Placemark>
+			<name>Adams-Elendale</name>
+			<styleUrl>#z1</styleUrl>
+			<Point>
+				<coordinates>-118.288849,34.032705</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Adams-Magnolia</name>
+			<styleUrl>#z1</styleUrl>
+			<Point>
+				<coordinates>-118.286456,34.031255</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Route A Stop</name>
+			<styleUrl>#z1</styleUrl>
+			<Point>
+				<coordinates>-118.286553,34.033594</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Friend House</name>
+			<styleUrl>#z1</styleUrl>
+			<Point>
+				<coordinates>-118.288800,34.031187</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>My Home</name>
+			<styleUrl>#z1</styleUrl>
+			<Point>
+				<coordinates>-118.286789,34.032529</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Orchard Ave</name>
+			<styleUrl>#z1</styleUrl>
+			<Point>
+				<coordinates>-118.287427,34.032130</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Adams-Menlo</name>
+			<styleUrl>#z1</styleUrl>
+			<Point>
+				<coordinates>-118.290335,34.032707</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Ralphs</name>
+			<styleUrl>#z1</styleUrl>
+			<Point>
+				<coordinates>-118.290769,34.032040</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<name>Adams-Monmouth</name>
+			<styleUrl>#z1</styleUrl>
+			<Point>
+				<coordinates>-118.284970,34.032080</coordinates>
+			</Point>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#transBluePoly</styleUrl>
+    		<name>Convex Hull</name>
+    		<Polygon>
+    		  <altitudeMode>clampToGround</altitudeMode>
+    		  <outerBoundaryIs>
+    		    <LinearRing>
+    		      <coordinates>
+    		      	-118.2888,34.031187
+					-118.290769,34.03204
+					-118.290335,34.032707
+					-118.286553,34.033594
+					-118.28497,34.03208
+					-118.286456,34.031255
+					-118.2888,34.031187
+    		      </coordinates>
+    		    </LinearRing>
+    		  </outerBoundaryIs>
+    		</Polygon>
+  		</Placemark>
+
+  		<Placemark>
+      		<name>Closest</name>
+      		<description>This is the closest place from my home</description>
+      		<styleUrl>#closest</styleUrl>
+      		<LineString>
+      		  <altitudeMode>clampToGround</altitudeMode>
+      		  <coordinates>
+      		  	-118.286789,34.032529
+      		  	-118.287427,34.03213
+      		  </coordinates>
+      		</LineString>
+    	</Placemark>
+
+    	<Placemark>
+      		<name>2nd Closest</name>
+      		<description>This is the 2nd closest place from my home</description>
+      		<styleUrl>#2ndClosest</styleUrl>
+      		<LineString>
+      		  <altitudeMode>clampToGround</altitudeMode>
+      		  <coordinates>
+      		  	-118.286789,34.032529
+      		  	-118.286553,34.033594
+      		  </coordinates>
+      		</LineString>
+    	</Placemark>
+
+
+    	<Placemark>
+      		<name>3rd Closest</name>
+      		<description>This is the 3rd closest place from my home</description>
+      		<styleUrl>#3rdClosest</styleUrl>
+      		<LineString>
+      		  <altitudeMode>clampToGround</altitudeMode>
+      		  <coordinates>
+      		  	-118.286789,34.032529
+      		  	-118.286456,34.031255
+      		  </coordinates>
+      		</LineString>
+    	</Placemark>
+
+	</Document>
+</kml>

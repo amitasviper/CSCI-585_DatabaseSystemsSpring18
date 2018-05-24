@@ -1,0 +1,124 @@
+Amit Kumar
+email : kuma310@usc.edu
+USC ID : 7088752227
+Database System (CSCI-585)
+Assignment No : 4
+
+======================================================================================================================================================================
+Solution 01.
+
+
+
+g = TinkerGraph.open().traversal()
+
+g.addV('course').property(id, 'CS101').as('v1').
+addV('course').property(id, 'CS201').as('v2').
+addV('course').property(id, 'CS220').as('v3').
+addV('course').property(id, 'CS420').as('v4').
+addV('course').property(id, 'CS334').as('v5').
+addV('course').property(id, 'CS681').as('v6').
+addV('course').property(id, 'CS400').as('v7').
+addV('course').property(id, 'CS526').as('v8').
+addE('pre-req').from('v2').to('v1').property(id, 1).
+addE('pre-req').from('v3').to('v2').property(id, 2).
+addE('pre-req').from('v4').to('v3').property(id, 3).
+addE('pre-req').from('v5').to('v2').property(id, 4).
+addE('pre-req').from('v6').to('v5').property(id, 5).
+addE('pre-req').from('v7').to('v5').property(id, 6).
+addE('pre-req').from('v8').to('v7').property(id, 7).
+addE('co-req').from('v4').to('v3').property(id, 8).
+addE('co-req').from('v8').to('v7').property(id, 9)
+
+
+Output:
+==>graphtraversalsource[tinkergraph[vertices:8 edges:9], standard]
+
+
+Explanation:
+The first command "g = TinkerGraph.open().traversal()" creates a new graph object to which we can add
+new nodes and edges and gets a traversal object for that graph. We will use this traversal object to perform all the opereration on the graph.
+The traversal object gets stored in the variable "g".
+
+Next we add the "course" nodes/vertices to the graph. This is done by command like "g.addV('course').property(id, 'CS101').as('v1')".
+The "addV" command adds a new vertex to the graph and we give it an alias by using step "as" and we can specify the different attributes of the node/vertex
+by using step "property" (it take a key and value as parameters).
+
+Next we add edges to out graph by using command like "addE('pre-req').from('v2').to('v1').property(id, 1)".
+The "addE" step adds a new edge between the nodes speficied in the "from" step and "to" step. We can also add
+attributes to the label as well using the "property" step. We are adding two different kind of edges, one is
+'pre-req' and the other is 'co-req'.
+
+We can also chain multiple vertex/edge addition command together as shown in the code. While adding the edges
+we are using the alias of the vertices we created in the beginning.
+
+
+======================================================================================================================================================================
+Solution 02:
+
+g.V().hasLabel('course').as('a').out('pre-req').as('b').in('co-req').where(eq('a')).select('a', 'b')
+
+
+Output:
+==>[a:v[CS420],b:v[CS220]]
+==>[a:v[CS526],b:v[CS400]]
+
+
+Explanation:
+To select the nodes which have two edges connectivity between them we use the following concept.
+Lets say the current node is "A" and it is connected with "B" via two edges, 'pre-req' and 'co-req'.
+Now to check this we do the following operation.
+We check if "A" connected to "B" via an 'pre-req' edge and "B" has an incoming
+edge 'co-req' from node "A" than we can say that "A" and "B" are connected via two edges 'pre-req' and 'co-req'.
+
+To do this we start by the traversal object "g" and get all the vertices which have lable "course"
+and give that vertex an alias "a". Next we get the first adjacent vertex which is connected via an 
+outgoing edge having label 'pre-req'. This is done by using the step 'out()'. To this adjacent node
+we give another alias named "b". Now we check if there is any incoming edge named 'co-req' form the vertex whose
+label is equal to the alias "a" we defined earlier. If there exists such vertex then we display both of them by
+using the "select" step which takes the two aliases as parameters.
+
+======================================================================================================================================================================
+Solution 03:
+
+g.V('CS526').hasLabel('course').as('self').repeat(out().as('ancestor')).until(__.not(out())).select(all, 'ancestor').dedup().unfold()
+
+
+Output:
+==>v[CS400]
+==>v[CS334]
+==>v[CS201]
+==>v[CS101]
+
+
+Explanation:
+To get all the ancestors of a node/vertex in the graph we keep traversing the graph until we do not find any outgoing edge from a vertex.
+To do this we use the "repeat" and "until" steps. The "repeat" step keeps repeating the operations given as its parameters and the "until"
+step checks if the condition given as its parameter is true. This is similar to the "do{}while()" operation in C\C++.
+
+The "repeat(out().as('ancestor'))" step keeps traversing to the nodes connected to the current node via an outgoing edge and assigns it an alias as
+'ancestor'. Then the "until(__.not(out()))" step is imitating the "while()" operation. It is checking if the current node has an outgoing edge. If yes,
+the the "repeat" step will be called, else the repeat step will not be get called.
+
+The "select(all, 'ancestor')" then selects all the nodes which were aliased as 'ancestor' during the traversal.
+The "dedup" step makes sure that there are no duplicates. The last step is "unfold", which unfolds a list of elements into separate elements.
+
+======================================================================================================================================================================
+Solution 04:
+
+g.V('CS101').hasLabel('course').emit().repeat(__.in()).path().dedup().count(local).fold(0,max)
+
+
+Output:
+==>5
+
+Explanation:
+The 'emit' step is mostly used along with the 'repeat' step. The 'emit' step is responsible for splitting the traverser into two, the traverser exit the current
+code block and the second continues back within the block. Here we are using the 'emit' step so that we can print atleat the current node if the current node
+is a leaf node. Next the traversal keeps on iterating untill there exists no 'incoming' edge.
+The 'dedup' step is used to remove the duplicates from the output.
+We use the 'local' step to do operations based on the current state instead of waiting until the end of the traversal.
+So we count the number of nodes it traversed in the 'local' state by using the step 'count(local)' and then finally find
+the max using the step 'fold(0, max)'. The 'fold' step also makes sure that it returns atleat '0' when there are no elements in the final list.
+This can happen if the user gives the node id which is not present in the graph.
+
+======================================================================================================================================================================

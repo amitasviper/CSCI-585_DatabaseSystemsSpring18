@@ -1,0 +1,63 @@
+---
+title: "HW5_AmitKumar"
+output: html_document
+---
+
+## Problem Part 1
+
+* Import all the required modules.
+* Osmdata package is used to access the open source maps "OpenStreetMap"
+* Tmaptools package is used reading and processing spatial data.
+
+```{r echo=FALSE}
+require(rgdal)
+require(osmdata)
+require(tmaptools)
+require(tmap)
+require(sp)
+```
+readOGR(): This function is defined in "rgdal" package. It reads an OGR data source and layer into a suitable Spatial vector object and function returns a spatial data frame object. This function take two parameters, the path to the shapefile directory and the filename without the extension.
+
+```{r}
+sp_data_frame <- readOGR(dsn = "/home/rstudio/hw5", layer = "locations")
+```
+read_osm(): This function is defined in the "tmaptools" package. It reads Open Street Map data and returns a Spatial grid data frame object.
+```{r}
+sp_grid_data_frame <- read_osm(bb(sp_data_frame))
+```
+* Now we draw the map and plot the place co-ordinated on that map. The first two function "tm_shape" and "tm_raster" are used to draw the map of the location and then next two function calls "tm_shape" and "tm_dots" are used to draw the actual red dots on the raster map plot.
+
+* These all function returns a "tmap-element" which is the basic building block element of thematic maps.
+
+* The "+" (addition) operation simply stacks all the layer and forms a group, which further can be stacked on other groups.
+```{r}
+tm_shape(sp_grid_data_frame) + tm_raster(sp_data_frame) + tm_shape(sp_data_frame) + tm_dots(size=2, col='red')
+```
+## Problem Part 2
+
+* Import all the required modules.
+* PBSmapping is imported to use the "importShapefile" function.
+* ggmap is imported to use the "ggmap" function.
+
+```{r echo=FALSE}
+require('PBSmapping')
+require('ggmap')
+```
+* importShapefile(): This function is used to import the shapefile and returns a event data frame object. The event data contains columns like EID, X, Y and other columns depending upon the source.
+```{r}
+event_data <- importShapefile("/home/rstudio/hw5/locations.shp")
+```
+* as.data.frame(): Converts an event data object into a DataFrame. A data frame is a way of representing data in rows and columns just like a relational table. The advantage of using a dataframe is that you can perform operations on colums and rows with just a single function call.
+```{r}
+data_frame <- as.data.frame(event_data)
+```
+* get_map(): It is a wrapper that makes call to Google Maps, OpenStreetMaps etc servers for map data. It gets the map data from appropriate map vendors according to the parameters passed. It also take location co-ordinates of which the map data will be fetched. The "zoom" parameter defines the extent to which the location will be zoomed in. The "zoom" parameter accepts an integer and it ranges from 3(continent) to 21(buildings). One another parameter is "maptype" which is used to specify the type of map downloaded, it can accept values like "satellite", "terrain", "watercolor" etc. (dependent on the vendor type). This function returns a raster map object with a bounding box.
+```{r}
+map_object <- get_map(location=c(lon=-118.2874, lat=34.03213), zoom = 16, maptype = "roadmap")
+```
+* ggmap(): This function plots the raster map object returned by the "get_map" function. 
+
+* geom_point(): This function is used to generate a scatter plot. It simply plots the points provided in the data source as argument. Here we have used the data frame as the data source. It uses "aes" function to set aesthetics of each data point in the data frame.
+```{r}
+ggmap(map_object) + geom_point(data=data_frame, aes(x=X, y=Y, col='pink'))
+```
